@@ -5,22 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login Llutid+</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
-
     * {
       box-sizing: border-box;
     }
 
-    body, html {
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #0d0d0d;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       overflow: hidden;
     }
 
-    /* Animación de introducción */
+    /* Animación de la pantalla de bienvenida */
     .intro-screen {
       position: fixed;
       top: 0; left: 0;
@@ -35,13 +37,13 @@
 
     .logo-container {
       font-size: 4rem;
-      font-family: 'Montserrat', sans-serif;
       font-weight: 800;
       color: white;
       opacity: 0;
       letter-spacing: 4px;
       animation: fadeInZoom 2s ease-out forwards, fadeOut 1s ease-in forwards 4s;
       text-shadow: 0 0 10px #00bfff88, 0 0 20px #00bfff44;
+      font-family: 'Montserrat', sans-serif;
     }
 
     @keyframes fadeInZoom {
@@ -62,190 +64,171 @@
       }
     }
 
-    .anuncio-fondo {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .anuncio-fondo img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 1.5s ease-in-out;
-    }
-
-    .anuncio-fondo img.active {
-      opacity: 1;
-      z-index: 1;
-    }
-
-    .login-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(20, 20, 20, 0.5);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Estilo del formulario de login */
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
       padding: 40px;
       border-radius: 20px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 60px rgba(0, 255, 255, 0.3);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       text-align: center;
-      animation: fadeIn 1.5s ease;
-      z-index: 2;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translate(-50%, -40%); }
-      to { opacity: 1; transform: translate(-50%, -50%); }
+      width: 100%;
+      max-width: 400px;
+      backdrop-filter: blur(10px);
+      display: none; /* Ocultar el formulario inicialmente */
     }
 
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 25px;
-      color: white;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    h1 span.llutid {
-      color: #00eaff;
-      text-shadow: 0 0 10px #00eaff;
-    }
-
-    h1 span.plus {
-      color: white;
-      text-shadow: 0 0 20px white;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 15px;
+      font-size: 3em;
       margin-bottom: 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      text-align: center;
-      transition: 0.3s;
-      outline: none;
     }
 
-    input[type="text"]:focus {
-      background-color: rgba(255,255,255,0.1);
-      box-shadow: 0 0 10px #00eaff;
+    h1 span:first-child {
+      color: #2196f3;
+    }
+
+    h1 span:last-child {
+      color: #ffffff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      background-color: #1e1e1e;
+      color: white;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(33, 150, 243, 0.6);
     }
 
     button {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #00eaff, #0066ff);
-      color: white;
-      font-weight: bold;
+      margin-top: 15px;
       border: none;
-      border-radius: 10px;
-      font-size: 1.1rem;
+      border-radius: 30px;
+      background-color: #2196f3;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 20px rgba(0, 234, 255, 0.4);
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px rgba(0, 234, 255, 0.6);
+      background-color: #0bc36a;
     }
 
-    .error-message, .success-message {
-      font-size: 1rem;
-      margin-top: 15px;
+    .mensaje {
       display: none;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 30px;
+      font-size: 16px;
     }
 
-    .error-message {
-      color: #ff4444;
-      animation: shake 0.4s ease;
+    #success {
+      background-color: #4caf50;
     }
 
-    .success-message {
-      color: #4caf50;
+    #error {
+      background-color: #f44336;
     }
 
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
+    .suscribirse {
+      margin-top: 30px;
+      font-size: 14px;
     }
 
-    .suscripcion-link, .ayuda-link {
-      margin-top: 40px;
-      color: #00eaff;
+    .suscribirse a {
+      color: #2196f3;
       text-decoration: none;
-      font-size: 1.1rem;
       font-weight: bold;
-      transition: 0.3s;
+      display: inline-block;
+      margin-top: 8px;
+      transition: color 0.3s;
     }
 
-    .suscripcion-link:hover, .ayuda-link:hover {
-      text-decoration: underline;
+    .suscribirse a:hover {
+      color: #0bc36a;
     }
 
-    .ayuda-link {
-      margin-top: 10px;
-      color: white;
+    /* Animación fadeIn para el formulario */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Pantalla de introducción -->
+  <!-- Pantalla de animación de bienvenida -->
   <div class="intro-screen">
-    <div class="logo-container">LLUTID</div>
+    <div class="logo-container">LLUTID+</div>
   </div>
 
-  <!-- Carrusel tipo anuncio con desvanecimiento -->
-  <div class="anuncio-fondo">
-    <img src="https://wallpapercave.com/wp/wp6985052.jpg" class="active">
-    <img src="https://wallpapercave.com/wp/wp7692915.jpg">
-    <img src="https://wallpapercave.com/wp/wp4065059.jpg">
-  </div>
+  <!-- Formulario de login -->
+  <div class="container">
+    <h1><span>Llutid</span><span>+</span></h1>
 
-  <!-- Login -->
-  <div class="login-container">
-    <h1>Login <span class="llutid">Llutid</span><span class="plus">+</span></h1>
-    <input type="text" id="pin" maxlength="4" placeholder="PIN de 4 dígitos">
+    <input type="email" id="correo" placeholder="Correo electrónico" />
+    <input type="text" id="pin" maxlength="4" placeholder="PIN de 4 dígitos" />
     <button onclick="verificarPIN()">Ingresar</button>
-    <p id="error" class="error-message">PIN incorrecto. Intenta nuevamente.</p>
-    <p id="success" class="success-message">PIN correcto. Redirigiendo...</p>
 
-    <!-- Opciones -->
-    <a href="https://api.whatsapp.com/send?phone=+573181087834&text=%C2%A1Hola!%20%F0%9F%91%8B%20Estoy%20emocionado/a%20por%20unirme%20a%20Llutid+%20%F0%9F%8E%AC%20y%20comenzar%20a%20disfrutar%20de%20todo%20su%20contenido%20exclusivo.%20%C2%BFPodr%C3%ADan%20ayudarme%20con%20los%20pasos%20para%20iniciar%20mi%20suscripci%C3%B3n%20%F0%9F%92%B3%20y%20completar%20el%20proceso%20de%20pago?%20%C2%A1Espero%20con%20ansias%20ser%20parte%20de%20la%20experiencia%20Llutid+!%20%E2%9C%A8" class="suscripcion-link">¿No tienes el PIN? ¡Suscríbete a Llutid+ ahora!</a>
-    <a href="https://api.whatsapp.com/send?phone=+573181087834&text=%C2%A1Hola!%20%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8F%F0%9F%99%8B%E2%80%8D%E2%99%80%EF%B8%8F%20Estoy%20teniendo%20problemas%20para%20ingresar%20a%20mi%20cuenta%20de%20Llutid+%20con%20el%20PIN%20que%20se%20me%20proporcion%C3%B3%20%F0%9F%94%91.%20%C2%BFPodr%C3%ADan%20ayudarme%20a%20resolver%20este%20inconveniente%20y%20orientarme%20sobre%20c%C3%B3mo%20puedo%20acceder%20nuevamente?%20%C2%A1Gracias%20de%20antemano!%20%F0%9F%98%8A" class="ayuda-link">¿Necesitas ayuda?</a>
+    <div id="success" class="mensaje">¡Acceso concedido!</div>
+    <div id="error" class="mensaje">Correo o PIN incorrecto.</div>
+
+    <div class="suscribirse">
+      ¿No tienes cuenta? <br />
+      <a href="https://api.whatsapp.com/send?phone=+573181087834&text=%C2%A1Hola!%20%F0%9F%91%8B%20Estoy%20emocionado/a%20por%20unirme%20a%20Llutid+%20%F0%9F%8E%AC%20y%20comenzar%20a%20disfrutar%20de%20todo%20su%20contenido%20exclusivo.%20%C2%BFPodr%C3%ADan%20ayudarme%20con%20los%20pasos%20para%20iniciar%20mi%20suscripci%C3%B3n%20%F0%9F%92%B3%20y%20completar%20el%20proceso%20de%20pago?%20%C2%A1Espero%20con%20ansias%20ser%20parte%20de%20la%20experiencia%20Llutid+!%20%E2%9C%A8" target="_blank">
+        ¡Suscríbete a Llutid+ ahora!
+      </a>
+    </div>
   </div>
 
   <script>
+    // Después de 5.5 segundos, ocultar la animación y mostrar el formulario
+    setTimeout(() => {
+      document.querySelector('.intro-screen').style.display = 'none';
+      document.querySelector('.container').style.display = 'block';
+      document.querySelector('.container').style.animation = 'fadeIn 1s ease-in-out'; // Añadir animación fadeIn al formulario
+    }, 5500);
+
     function verificarPIN() {
+      const correo = document.getElementById('correo').value.trim().toLowerCase();
       const pin = document.getElementById('pin').value.trim();
-      const correcto = '0607';
       const errorMsg = document.getElementById('error');
       const successMsg = document.getElementById('success');
 
-      if (pin === correcto) {
+      const usuariosRegistrados = {
+        "llutidoficial@gmail.com": "0607",
+        "luzmarinamartinez1805@gmail.com": "0607",
+        "torresqnderson0987@gmail.com": "0607",
+        "martinidia30@gmail.com": "2683",
+        "pipedxhidalgo@gmail.com": "0607",
+        "ruizruizdannaelizabeth@gmail.com": "0607",
+        "ximenapm2603@gmail.com": "0607",
+      };
+
+      if (usuariosRegistrados[correo] && usuariosRegistrados[correo] === pin) {
+        localStorage.setItem('correo', correo);
         errorMsg.style.display = 'none';
         successMsg.style.display = 'block';
         setTimeout(() => {
-          window.open('https://llutid.github.io/home-llutid/', '_blank');
+          window.open('https://llutid.github.io/home2.0llutid/', '_blank');
         }, 2000);
       } else {
         successMsg.style.display = 'none';
@@ -253,21 +236,12 @@
       }
     }
 
-    let currentIndex = 0;
-    const images = document.querySelectorAll('.anuncio-fondo img');
-
-    function changeImage() {
-      images[currentIndex].classList.remove('active');
-      currentIndex = (currentIndex + 1) % images.length;
-      images[currentIndex].classList.add('active');
+    window.onload = function () {
+      const correoGuardado = localStorage.getItem('correo');
+      if (correoGuardado) {
+        document.getElementById('correo').value = correoGuardado;
+      }
     }
-
-    setInterval(changeImage, 5000);
-
-    // Ocultar pantalla de intro después de 5.5 segundos
-    setTimeout(() => {
-      document.querySelector('.intro-screen').style.display = 'none';
-    }, 5500);
   </script>
 </body>
 </html>
